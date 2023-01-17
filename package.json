@@ -1,0 +1,23 @@
+{
+  "name": "sls-stepfunctions-hello",
+  "version": "1.0.0",
+  "description": "",
+  "main": "handler.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/FonNkwenti/sls-stepFunctions-hello.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/FonNkwenti/sls-stepFunctions-hello/issues"
+  },
+  "homepage": "https://github.com/FonNkwenti/sls-stepFunctions-hello#readme",
+  "devDependencies": {
+    "serverless-step-functions": "^3.12.1"
+  }
+}
