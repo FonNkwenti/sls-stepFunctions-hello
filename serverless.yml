@@ -11,30 +11,37 @@ provider:
 
 plugins:
   - serverless-step-functions
+  - serverless-esbuild
 
 functions:
   helloWorld:
+    name: helloWorld
     handler: src/handler.message
 
 stepFunctions:
   stateMachines:
     helloWorld:
+      name: ${self:service}-${self:provider.stage}-statemachine
       definition:
-        comment: "Hello World AWS Step Function with serverless-step-functions plugin for Serverless Framework"
+        Comment: "Hello World AWS Step Function with serverless-step-functions plugin for Serverless Framework"
         StartAt: "Hello"
         States:
           Hello:
             Type: Task
             Resource:
-              Fn::GetAtt: [helloWorld, Arn]
-            Next: Response
-          Response:
+              Fn::GetAtt:
+                - helloWorld
+                - Arn
+            OutputPath: "$.Payload"
+            Parameters:
+              Payload.$: "$"
+            Next: Succeed
+          Succeed:
             Type: Succeed
-
-resources:
-  Outputs:
-    helloWorld:
-      Export:
-        Name: "Hello World State Machine"
-      Value:
-        Ref: helloWorldFlow
+# resources:
+#   # Outputs:
+#   #   helloWorld:
+#   #     Export:
+#   #       Name: "Hello World State Machine"
+#   #     Value:
+#   #       Ref: helloWorld

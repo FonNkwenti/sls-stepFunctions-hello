@@ -18,6 +18,7 @@
   },
   "homepage": "https://github.com/FonNkwenti/sls-stepFunctions-hello#readme",
   "devDependencies": {
+    "serverless-esbuild": "^1.37.0",
     "serverless-step-functions": "^3.12.1"
   }
 }
