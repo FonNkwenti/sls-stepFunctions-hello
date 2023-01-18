@@ -5,22 +5,36 @@ frameworkVersion: "3"
 provider:
   name: aws
   runtime: nodejs16.x
-  region: us-west-1
-  lambdaHashingVersion: 20201221
+  region: ${opt:region, 'us-west-1'}
+  stage: ${opt:stage, 'dev'}
+  # lambdaHashingVersion: 20201221
 
-#  stage: dev
-#  region: us-west-1
+plugins:
+  - serverless-step-functions
+
+functions:
+  helloWorld:
+    handler: src/handler.message
 
 stepFunctions:
   stateMachines:
-    helloWorldFlow:
+    helloWorld:
       definition:
-      comment: "Hello World AWS Step Function with serverless-step-functions plugin for Serverless Framework"
-        startAt: "Wait for Timer"
+        comment: "Hello World AWS Step Function with serverless-step-functions plugin for Serverless Framework"
+        StartAt: "Hello"
         States:
-          Wait for Timer:
-            Type: Wait
-            SecondsPath: "$.timer_seconds"
-            Next: Success
-          Success:
+          Hello:
+            Type: Task
+            Resource:
+              Fn::GetAtt: [helloWorld, Arn]
+            Next: Response
+          Response:
             Type: Succeed
+
+resources:
+  Outputs:
+    helloWorld:
+      Export:
+        Name: "Hello World State Machine"
+      Value:
+        Ref: helloWorldFlow
