@@ -24,24 +24,19 @@ stepFunctions:
       name: ${self:service}-${self:provider.stage}-statemachine
       definition:
         Comment: "Hello World AWS Step Function with serverless-step-functions plugin for Serverless Framework"
-        StartAt: "Hello"
+        StartAt: "Invoke Lambda"
         States:
-          Hello:
+          Invoke Lambda:
             Type: Task
             Resource:
               Fn::GetAtt:
                 - helloWorld
                 - Arn
-            OutputPath: "$.Payload"
+            OutputPath: $.data
+            InputPath: $.lambda
             Parameters:
-              Payload.$: "$"
+              Payload.$: $
+            ResultPath: $.data.lambdaresult
             Next: Succeed
           Succeed:
             Type: Succeed
-# resources:
-#   # Outputs:
-#   #   helloWorld:
-#   #     Export:
-#   #       Name: "Hello World State Machine"
-#   #     Value:
-#   #       Ref: helloWorld
